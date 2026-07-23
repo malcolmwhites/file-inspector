@@ -7,7 +7,17 @@
 class WavFile
 {
 private:
+    char riff[4];
+    char wave[4];
+    char fmt[4];
+    char dataHeader[4];
+   
+   
+
+
     std::vector<short> samples;
+    unsigned int chunkSize;
+    unsigned int fmtSize;
     unsigned int sampleRate;
     unsigned short channels;
     unsigned short audioFormat;
@@ -23,6 +33,7 @@ private:
 
 public:
     bool open(std::string filename);
+    bool write(std::string filename);
     void printInfo() const;
     void amplify(double gain);
 };
