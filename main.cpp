@@ -9,6 +9,7 @@ int main()
 
     if(wav.open("kick.wav"))
     {
+        wav.amplify(.5);
         wav.printInfo();
     }
     else

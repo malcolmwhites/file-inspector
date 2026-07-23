@@ -16,9 +16,15 @@ private:
     unsigned short bitsPerSample;
     unsigned int dataSize;
     double duration;
+    short getMaxSample() const;
+    short getMinSample() const;
+    short getPeakAmplitude() const;
+    double getAverageAmplitude() const;
+
 public:
     bool open(std::string filename);
     void printInfo() const;
+    void amplify(double gain);
 };
 
 #endif

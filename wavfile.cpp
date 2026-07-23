@@ -1,6 +1,8 @@
 #include "wavfile.h"
 #include <fstream>
 #include <iostream>
+#include <cstdlib>
+
 
 
 using namespace std;
@@ -42,6 +44,9 @@ file.read(data, 4);
 file.read(reinterpret_cast<char*>(&dataSize), sizeof(dataSize));
 samples.resize(dataSize/sizeof(short));
 file.read(reinterpret_cast<char*>(samples.data()), dataSize);
+char gain[4];
+file.read(gain, 4);
+file.read(reinterpret_cast<char*>(&gain), sizeof(gain));
 
 
 
@@ -60,5 +65,51 @@ void WavFile::printInfo() const
     for(int i = 0; i<11; i++){
         cout << "Sample " << i << ": " << samples[i] << endl;
     }
+    cout << "Max Sample: " << getMaxSample() << endl;
+    cout << "Min Sample: " << getMinSample() << endl;
+    cout << "Peak Amplitude: " << getPeakAmplitude() << endl;
+    cout << "Average Amplitude: " <<getAverageAmplitude();
+
+    
 }
+short WavFile::getMaxSample() const
+{
+    int MaxSample = 0;
+    for(int i = 0; i<samples.size();i++){
+        if(samples[i]>samples[MaxSample]){
+            MaxSample = i;
+        }
+    }
+    return samples[MaxSample];
+}
+short WavFile::getMinSample() const{
+    int MinSample = 0;
+    for(int i = 0; i<samples.size();i++){
+        if(samples[i]<samples[MinSample]){
+            MinSample = i;
+        }
+    }
+    return samples[MinSample];
+    
+}
+short WavFile::getPeakAmplitude() const{
+    if(abs(getMinSample())>getMaxSample()){
+        return abs(getMinSample());
+    }
+    return getMaxSample();
+}
+double WavFile::getAverageAmplitude() const{
+long long total = 0;
+    for(int i = 0;i<samples.size();i++){
+        total += abs(samples[i]);
+    }
+    return static_cast<double>(total)/samples.size();
+}
+void WavFile::amplify(double gain){
+    for(int i = 0;i<samples.size();i++){
+        samples[i] = samples[i] * gain;
+    }
+}
+
+
 
