@@ -57,5 +57,8 @@ void WavFile::printInfo() const
     cout << "Bits Per Sample: " << bitsPerSample << endl;
     cout << "Data Size: " << dataSize << endl;
     cout << "Number of Samples: " << samples.size() << endl;
+    for(int i = 0; i<11; i++){
+        cout << "Sample " << i << ": " << samples[i] << endl;
+    }
 }
 
