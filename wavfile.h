@@ -2,10 +2,12 @@
 #define WAVFILE_H
 
 #include <string>
+#include <vector>
 
 class WavFile
 {
 private:
+    std::vector<short> samples;
     unsigned int sampleRate;
     unsigned short channels;
     unsigned short audioFormat;

@@ -40,6 +40,8 @@ file.read(reinterpret_cast<char*>(&bitsPerSample), sizeof(bitsPerSample));
 char data[4];
 file.read(data, 4);
 file.read(reinterpret_cast<char*>(&dataSize), sizeof(dataSize));
+samples.resize(dataSize/sizeof(short));
+file.read(reinterpret_cast<char*>(samples.data()), dataSize);
 
 
 
@@ -54,5 +56,6 @@ void WavFile::printInfo() const
     cout << "Block Align: " << blockAlign << endl;
     cout << "Bits Per Sample: " << bitsPerSample << endl;
     cout << "Data Size: " << dataSize << endl;
+    cout << "Number of Samples: " << samples.size() << endl;
 }
 
